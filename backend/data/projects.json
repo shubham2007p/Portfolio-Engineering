@@ -1,0 +1,54 @@
+[
+  {
+    "id": "proj-cpu",
+    "title": "Neural Network Accelerator",
+    "description": "A custom CUDA kernel implementation for accelerating transformer attention mechanisms. Achieves 3.2× throughput vs baseline PyTorch on A100 GPUs.",
+    "tags": ["CUDA", "C++", "PyTorch", "Transformers"],
+    "year": 2024,
+    "url": "https://github.com/shubh-panwar",
+    "liveUrl": "",
+    "bgColor": "#f6f5f0",
+    "backdropColor": "#bfbeb5",
+    "badge": "PROJ-01",
+    "iconType": "cpu"
+  },
+  {
+    "id": "proj-terminal",
+    "title": "CLI Dev Toolkit",
+    "description": "A terminal-native developer workflow toolkit built in Go. Bundles git aliases, project scaffolding, and environment switching into a single binary.",
+    "tags": ["Go", "CLI", "DevTools", "Bash"],
+    "year": 2024,
+    "url": "https://github.com/shubh-panwar",
+    "liveUrl": "",
+    "bgColor": "#d95829",
+    "backdropColor": "#963614",
+    "badge": "PROJ-02",
+    "iconType": "terminal"
+  },
+  {
+    "id": "proj-gears",
+    "title": "Distributed Task Engine",
+    "description": "A fault-tolerant job scheduler for distributed ML training pipelines. Handles checkpointing, failure recovery, and dynamic resource allocation.",
+    "tags": ["Python", "Redis", "Kubernetes", "gRPC"],
+    "year": 2024,
+    "url": "https://github.com/shubh-panwar",
+    "liveUrl": "",
+    "bgColor": "#516885",
+    "backdropColor": "#304154",
+    "badge": "PROJ-03",
+    "iconType": "gears"
+  },
+  {
+    "id": "proj-robot-arm",
+    "title": "Robotic Motion Planner",
+    "description": "Real-time inverse kinematics solver for 6-DoF robotic arms using ROS2. Integrates with vision pipeline for autonomous object manipulation.",
+    "tags": ["ROS2", "Python", "OpenCV", "C++"],
+    "year": 2024,
+    "url": "https://github.com/shubh-panwar",
+    "liveUrl": "",
+    "bgColor": "#409895",
+    "backdropColor": "#246361",
+    "badge": "PROJ-04",
+    "iconType": "robot"
+  }
+]
