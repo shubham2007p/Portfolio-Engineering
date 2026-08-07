@@ -86,7 +86,7 @@ function ServicesSection() {
 
           {/* Right Column: Problem Solver Terminal Prompt */}
           <div className="services-right">
-            <div className="terminal-container">
+            <div className="terminal-container ai-style-change-1">
               <div className="terminal-headerbar">
                 <span className="terminal-header-dot red"></span>
                 <span className="terminal-header-dot yellow"></span>
