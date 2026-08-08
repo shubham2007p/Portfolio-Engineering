@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+// Verification trigger commit for live active builds page tracking
 // Helper: Format commit time relative or as clock time
 function formatTime(date) {
   const now = new Date();
