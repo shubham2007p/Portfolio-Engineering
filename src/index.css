@@ -1551,7 +1551,8 @@ body:has(.blog-topic-item:hover) .bg-grid {
 .console-title {
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  color: var(--text-secondary);
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
 .console-controls {
@@ -1647,7 +1648,8 @@ body:has(.blog-topic-item:hover) .bg-grid {
 .products-panel-title {
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  color: var(--text-secondary);
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
 .products-panel-controls {
@@ -3504,4 +3506,17 @@ footer#site-footer {
   justify-content: space-evenly;
   min-height: 80vh;
   margin-top: 40px; /* Increased top margin */
+}
+
+/* Responsive Visibility Adjustments */
+@media (max-width: 480px) {
+  .build-console {
+    display: none !important;
+  }
+}
+
+@media (max-width: 430px) {
+  section#build-section {
+    display: none !important;
+  }
 }
