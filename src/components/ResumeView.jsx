@@ -27,7 +27,7 @@ function ResumeView({ onClose }) {
             <span className="bullet-dot">•</span>
             <span className="resume-phone">+91 97111 97804</span>
             <span className="bullet-dot">•</span>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="resume-link bold-link">LINKEDIN</a>
+            <a href="https://www.linkedin.com/in/shubham-panwar-9324b02a8/" target="_blank" rel="noopener noreferrer" className="resume-link bold-link">LINKEDIN</a>
             <span className="bullet-dot">•</span>
             <a href="https://github.com/shubh-panwar" target="_blank" rel="noopener noreferrer" className="resume-link bold-link">GITHUB</a>
           </div>

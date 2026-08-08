@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { postApi } from '../hooks/useApi';
 
 const socials = [
-  { num: '01', label: 'email', href: 'mailto:shubham.panwar.dev@gmail.com', value: 'shubham.panwar.dev@gmail.com' },
+  { num: '01', label: 'email', href: 'mailto:shubhamworking1004@gmail.com', value: 'shubhamworking1004@gmail.com' },
   { num: '02', label: 'github', href: 'https://github.com/shubh-panwar', value: 'github.com/shubh-panwar' },
-  { num: '03', label: 'linkedin', href: 'https://linkedin.com/in/shubh-panwar', value: 'linkedin.com/in/shubh-panwar' },
-  { num: '04', label: 'x-twitter', href: 'https://x.com/shubh-panwar', value: 'x.com/shubh-panwar' }
+  { num: '03', label: 'linkedin', href: 'https://www.linkedin.com/in/shubham-panwar-9324b02a8/', value: 'linkedin.com/in/shubham-panwar-9324b02a8' },
+  { num: '04', label: 'x-twitter', href: '#', value: '[INACTIVE]' }
 ];
 
 function ConnectSection() {
@@ -52,8 +52,10 @@ function ConnectSection() {
             <a 
               key={soc.num}
               href={soc.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={(e) => { if (soc.href === '#') { e.preventDefault(); } }}
+              style={soc.href === '#' ? { cursor: 'default' } : {}}
+              target={soc.href === '#' ? undefined : "_blank"}
+              rel={soc.href === '#' ? undefined : "noopener noreferrer"}
               className="connect-link-row"
             >
               <span className="connect-link-num">{soc.num}/</span>

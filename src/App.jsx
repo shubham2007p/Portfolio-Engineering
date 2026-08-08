@@ -452,9 +452,9 @@ function App() {
                     <div className="footer-col">
                       <span className="col-label">02 // SOCIALS</span>
                       <a href="https://github.com/shubh-panwar" target="_blank" rel="noopener noreferrer" className="footer-link">GitHub</a>
-                      <a href="https://linkedin.com/in/shubh-panwar" target="_blank" rel="noopener noreferrer" className="footer-link">LinkedIn</a>
-                      <a href="https://x.com/shubh-panwar" target="_blank" rel="noopener noreferrer" className="footer-link">Twitter</a>
-                      <a href="mailto:shubham.panwar.dev@gmail.com" className="footer-link">Email</a>
+                      <a href="https://www.linkedin.com/in/shubham-panwar-9324b02a8/" target="_blank" rel="noopener noreferrer" className="footer-link">LinkedIn</a>
+                      <a href="#" onClick={(e) => e.preventDefault()} style={{ cursor: 'default' }} className="footer-link">Twitter</a>
+                      <a href="mailto:shubhamworking1004@gmail.com" className="footer-link">Email</a>
                     </div>
                     <div className="footer-col">
                       <span className="col-label">03 // DOMAINS</span>

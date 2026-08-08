@@ -10,7 +10,7 @@ function Footer({ onExploreClick, exploreText }) {
       </button>
       <div className="footer-right">
         {!isConnect && (
-          <a href="mailto:shubham.panwar.dev@gmail.com" className="email-link">EMAIL US</a>
+          <a href="mailto:shubhamworking1004@gmail.com" className="email-link">EMAIL US</a>
         )}
       </div>
     </footer>
