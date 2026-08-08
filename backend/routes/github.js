@@ -59,6 +59,8 @@ router.get('/activity', async (req, res) => {
 
     if (logs.length === 0) {
       logs.push({ time: 'now', msg: 'System online. No recent push commits found.' });
+    } else {
+      logs = logs.slice(-10);
     }
 
     // ── Metrics ──────────────────────────────────────────────────────────
@@ -68,8 +70,8 @@ router.get('/activity', async (req, res) => {
     const metrics = [
       { label: 'PUBLIC REPOS', value: String(profile.public_repos || 0) },
       { label: 'YEARLY COMMITS', value: String(totalCommitsYTD) },
-      { label: 'SPRINT FOCUS', value: sprintFocus },
-      { label: 'SYS STATUS', value: 'OPERATIONAL' }
+      { label: 'LAST COMMIT TO', value: sprintFocus },
+      { label: 'SYS STATUS', value: 'LIVE' }
     ];
 
     res.json({ logs, metrics });
@@ -125,8 +127,8 @@ function fallbackData() {
     metrics: [
       { label: 'PUBLIC REPOS', value: '12' },
       { label: 'YEARLY COMMITS', value: '84' },
-      { label: 'SPRINT FOCUS', value: 'PORTFOLIO' },
-      { label: 'SYS STATUS', value: 'OPERATIONAL' }
+      { label: 'LAST COMMIT TO', value: 'PORTFOLIO' },
+      { label: 'SYS STATUS', value: 'LIVE' }
     ]
   };
 }

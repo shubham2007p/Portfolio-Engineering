@@ -48,8 +48,8 @@ function fallbackData() {
     metrics: [
       { label: 'PUBLIC REPOS', value: '12' },
       { label: 'YEARLY COMMITS', value: '84' },
-      { label: 'SPRINT FOCUS', value: 'PORTFOLIO' },
-      { label: 'SYS STATUS', value: 'OPERATIONAL' }
+      { label: 'LAST COMMIT TO', value: 'PORTFOLIO' },
+      { label: 'SYS STATUS', value: 'LIVE' }
     ]
   };
 }
@@ -57,8 +57,8 @@ function fallbackData() {
 const FALLBACK_METRICS = [
   { label: 'PUBLIC REPOS', value: '—' },
   { label: 'YEARLY COMMITS', value: '—' },
-  { label: 'SPRINT FOCUS', value: 'PORTFOLIO' },
-  { label: 'SYS STATUS', value: 'STABLE' }
+  { label: 'LAST COMMIT TO', value: 'PORTFOLIO' },
+  { label: 'SYS STATUS', value: 'LIVE' }
 ];
 
 const FALLBACK_LOGS = [
@@ -161,6 +161,8 @@ function BuildSection() {
 
         if (logs.length === 0) {
           logs.push({ time: 'now', msg: 'System online. No recent push commits found.' });
+        } else {
+          logs = logs.slice(-10);
         }
 
         // Calculate YTD commits count (approximated from pushes)
@@ -170,8 +172,8 @@ function BuildSection() {
         const metrics = [
           { label: 'PUBLIC REPOS', value: String(profile.public_repos || 0) },
           { label: 'YEARLY COMMITS', value: String(totalCommitsYTD) },
-          { label: 'SPRINT FOCUS', value: sprintFocus },
-          { label: 'SYS STATUS', value: 'OPERATIONAL' }
+          { label: 'LAST COMMIT TO', value: sprintFocus },
+          { label: 'SYS STATUS', value: 'LIVE' }
         ];
 
         if (active) {
