@@ -37,13 +37,13 @@ function countYTDCommits(events) {
 function fallbackData() {
   return {
     logs: [
-      { time: '17:28:44', msg: 'commit 9495e5: integrated 004/BLOG editorial typography flow' },
-      { time: '17:24:28', msg: 'commit 4ab72e: added scrollytelling cross-fades & translateY offsets' },
-      { time: '17:15:02', msg: 'bugfix: moved body overflow-x hidden to html to fix Safari snapping' },
-      { time: '17:01:32', msg: 'design: updated project cards to 3D dual-layer folder stacks' },
-      { time: 'Yesterday', msg: 'commit 87e143: initialized magnetic snapping nodes at 60fps' },
-      { time: 'Yesterday', msg: 'feat: canvas cursor particle trail loop rendering successfully' },
       { time: '2 days ago', msg: 'commit 5f6b9c: resolved z-index click blocking on scroll sections' },
+      { time: 'Yesterday', msg: 'feat: canvas cursor particle trail loop rendering successfully' },
+      { time: 'Yesterday', msg: 'commit 87e143: initialized magnetic snapping nodes at 60fps' },
+      { time: '17:01:32', msg: 'design: updated project cards to 3D dual-layer folder stacks' },
+      { time: '17:15:02', msg: 'bugfix: moved body overflow-x hidden to html to fix Safari snapping' },
+      { time: '17:24:28', msg: 'commit 4ab72e: added scrollytelling cross-fades & translateY offsets' },
+      { time: '17:28:44', msg: 'commit 9495e5: integrated 004/BLOG editorial typography flow' },
     ],
     metrics: [
       { label: 'PUBLIC REPOS', value: '12' },
@@ -156,7 +156,7 @@ function BuildSection() {
               time: timeLabel,
               msg: `commit ${shortHash}: [${activeRepo}] ${c.commit?.message?.split('\n')[0] || 'update'}`
             };
-          });
+          }).reverse();
         }
 
         if (logs.length === 0) {

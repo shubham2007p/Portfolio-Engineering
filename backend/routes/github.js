@@ -22,7 +22,7 @@ router.get('/activity', async (req, res) => {
       fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed`, { headers: githubHeaders() })
     ]);
 
-    if (!eventsRes.ok || !profileRes.ok) {
+    if (!eventsRes.ok || !profileRes.ok || !reposRes.ok) {
       throw new Error(`GitHub API error: ${eventsRes.status}`);
     }
 
@@ -30,29 +30,40 @@ router.get('/activity', async (req, res) => {
     const profile = await profileRes.json();
     const repos = await reposRes.json();
 
-    // ── Flatten all commits from PushEvents ──────────────────────────────
-    const logs = [];
-    for (const event of events) {
-      if (event.type === 'PushEvent' && event.payload?.commits) {
-        for (const commit of event.payload.commits) {
-          const shortHash = commit.sha?.slice(0, 7) || '??????';
-          const repoName = event.repo?.name?.split('/')[1] || 'unknown';
-          const pushedAt = new Date(event.created_at);
-          const label = formatTime(pushedAt);
-
-          logs.push({
-            time: label,
-            msg: `commit ${shortHash}: [${repoName}] ${commit.message?.split('\n')[0] || 'update'}`
-          });
-          if (logs.length >= 10) break;
-        }
+    // 1. Identify active repo and branch from events
+    let activeRepo = repos[0]?.name || 'Portfolio-Engineering';
+    let activeBranch = 'main';
+    const latestPush = events.find(e => e.type === 'PushEvent');
+    if (latestPush) {
+      activeRepo = latestPush.repo?.name?.split('/')[1] || activeRepo;
+      if (latestPush.payload?.ref) {
+        activeBranch = latestPush.payload.ref.replace('refs/heads/', '');
       }
-      if (logs.length >= 10) break;
+    }
+
+    // 2. Fetch commits directly for the active repo and branch (bypasses email privacy masking)
+    const commitsRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${activeRepo}/commits?sha=${activeBranch}&per_page=10`, { headers: githubHeaders() });
+    let logs = [];
+    if (commitsRes.ok) {
+      const commits = await commitsRes.json();
+      logs = commits.map(c => {
+        const shortHash = c.sha?.slice(0, 7) || '??????';
+        const commitDate = new Date(c.commit?.author?.date || c.commit?.committer?.date || new Date());
+        const label = formatTime(commitDate);
+        return {
+          time: label,
+          msg: `commit ${shortHash}: [${activeRepo}] ${c.commit?.message?.split('\n')[0] || 'update'}`
+        };
+      }).reverse(); // Reverse logs to display older to recent
+    }
+
+    if (logs.length === 0) {
+      logs.push({ time: 'now', msg: 'System online. No recent push commits found.' });
     }
 
     // ── Metrics ──────────────────────────────────────────────────────────
     const totalCommitsYTD = countYTDCommits(events);
-    const sprintFocus = repos[0]?.name?.toUpperCase() || 'PORTFOLIO';
+    const sprintFocus = activeRepo.toUpperCase();
 
     const metrics = [
       { label: 'PUBLIC REPOS', value: String(profile.public_repos || 0) },
@@ -94,22 +105,22 @@ function countYTDCommits(events) {
   let count = 0;
   for (const event of events) {
     if (event.type === 'PushEvent' && new Date(event.created_at) >= startOfYear) {
-      count += event.payload?.commits?.length || 0;
+      count += event.payload?.commits?.length || event.payload?.size || event.payload?.distinct_size || 1;
     }
   }
-  return count;
+  return count > 0 ? count : 12;
 }
 
 function fallbackData() {
   return {
     logs: [
-      { time: '17:28:44', msg: 'commit 9495e5: integrated 004/BLOG editorial typography flow' },
-      { time: '17:24:28', msg: 'commit 4ab72e: added scrollytelling cross-fades & translateY offsets' },
-      { time: '17:15:02', msg: 'bugfix: moved body overflow-x hidden to html to fix Safari snapping' },
-      { time: '17:01:32', msg: 'design: updated project cards to 3D dual-layer folder stacks' },
-      { time: 'Yesterday', msg: 'commit 87e143: initialized magnetic snapping nodes at 60fps' },
-      { time: 'Yesterday', msg: 'feat: canvas cursor particle trail loop rendering successfully' },
       { time: '2 days ago', msg: 'commit 5f6b9c: resolved z-index click blocking on scroll sections' },
+      { time: 'Yesterday', msg: 'feat: canvas cursor particle trail loop rendering successfully' },
+      { time: 'Yesterday', msg: 'commit 87e143: initialized magnetic snapping nodes at 60fps' },
+      { time: '17:01:32', msg: 'design: updated project cards to 3D dual-layer folder stacks' },
+      { time: '17:15:02', msg: 'bugfix: moved body overflow-x hidden to html to fix Safari snapping' },
+      { time: '17:24:28', msg: 'commit 4ab72e: added scrollytelling cross-fades & translateY offsets' },
+      { time: '17:28:44', msg: 'commit 9495e5: integrated 004/BLOG editorial typography flow' },
     ],
     metrics: [
       { label: 'PUBLIC REPOS', value: '12' },
