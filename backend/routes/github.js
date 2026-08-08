@@ -56,7 +56,7 @@ router.get('/activity', async (req, res) => {
 
     const metrics = [
       { label: 'PUBLIC REPOS', value: String(profile.public_repos || 0) },
-      { label: 'COMMITS (YTD)', value: String(totalCommitsYTD) },
+      { label: 'YEARLY COMMITS', value: String(totalCommitsYTD) },
       { label: 'SPRINT FOCUS', value: sprintFocus },
       { label: 'SYS STATUS', value: 'OPERATIONAL' }
     ];
@@ -113,7 +113,7 @@ function fallbackData() {
     ],
     metrics: [
       { label: 'PUBLIC REPOS', value: '12' },
-      { label: 'COMMITS (YTD)', value: '84' },
+      { label: 'YEARLY COMMITS', value: '84' },
       { label: 'SPRINT FOCUS', value: 'PORTFOLIO' },
       { label: 'SYS STATUS', value: 'OPERATIONAL' }
     ]
