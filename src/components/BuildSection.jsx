@@ -86,7 +86,7 @@ function BuildSection() {
         }
 
         // 2. Direct client-side fetch from GitHub for static page deployment (e.g. GitHub Pages)
-        const username = 'shubh-panwar';
+        const username = 'shubham2007p';
         const [eventsRes, profileRes, reposRes] = await Promise.all([
           fetch(`https://api.github.com/users/${username}/events/public?per_page=50`),
           fetch(`https://api.github.com/users/${username}`),
