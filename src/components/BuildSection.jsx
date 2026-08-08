@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-// Verification trigger commit for live active builds page tracking
+// Verification trigger commit for incrementing yearly commits count
 // Helper: Format commit time relative or as clock time
 function formatTime(date) {
   const now = new Date();
