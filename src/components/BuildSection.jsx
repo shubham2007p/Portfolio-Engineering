@@ -94,7 +94,7 @@ function BuildSection() {
           fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=pushed`)
         ]);
 
-        if (!eventsRes.ok || !profileRes.ok) {
+        if (!eventsRes.ok || !profileRes.ok || !reposRes.ok) {
           throw new Error(`GitHub API returned status: ${eventsRes.status}`);
         }
 
@@ -102,32 +102,40 @@ function BuildSection() {
         const profile = await profileRes.json();
         const repos = await reposRes.json();
 
-        // Process PushEvent commits
-        const logs = [];
-        for (const event of events) {
-          if (event.type === 'PushEvent' && event.payload?.commits) {
-            for (const commit of event.payload.commits) {
-              const shortHash = commit.sha?.slice(0, 7) || '??????';
-              const repoName = event.repo?.name?.split('/')[1] || 'unknown';
-              const pushedAt = new Date(event.created_at);
-              const timeLabel = formatTime(pushedAt);
-
-              logs.push({
-                time: timeLabel,
-                msg: `commit ${shortHash}: [${repoName}] ${commit.message?.split('\n')[0] || 'update'}`
-              });
-              if (logs.length >= 10) break;
-            }
+        // 1. Identify active repo and branch from events
+        let activeRepo = repos[0]?.name || 'Portfolio-Engineering';
+        let activeBranch = 'main';
+        const latestPush = events.find(e => e.type === 'PushEvent');
+        if (latestPush) {
+          activeRepo = latestPush.repo?.name?.split('/')[1] || activeRepo;
+          if (latestPush.payload?.ref) {
+            activeBranch = latestPush.payload.ref.replace('refs/heads/', '');
           }
-          if (logs.length >= 10) break;
+        }
+
+        // 2. Fetch commits directly for the active repo and branch (bypasses email privacy masking)
+        const commitsRes = await fetch(`https://api.github.com/repos/${username}/${activeRepo}/commits?sha=${activeBranch}&per_page=10`);
+        let logs = [];
+        if (commitsRes.ok) {
+          const commits = await commitsRes.json();
+          logs = commits.map(c => {
+            const shortHash = c.sha?.slice(0, 7) || '??????';
+            const commitDate = new Date(c.commit?.author?.date || c.commit?.committer?.date || new Date());
+            const timeLabel = formatTime(commitDate);
+            return {
+              time: timeLabel,
+              msg: `commit ${shortHash}: [${activeRepo}] ${c.commit?.message?.split('\n')[0] || 'update'}`
+            };
+          });
         }
 
         if (logs.length === 0) {
           logs.push({ time: 'now', msg: 'System online. No recent push commits found.' });
         }
 
+        // Calculate YTD commits count (approximated from pushes)
         const totalCommitsYTD = countYTDCommits(events);
-        const sprintFocus = repos[0]?.name?.toUpperCase() || 'PORTFOLIO';
+        const sprintFocus = activeRepo.toUpperCase();
 
         const metrics = [
           { label: 'PUBLIC REPOS', value: String(profile.public_repos || 0) },
