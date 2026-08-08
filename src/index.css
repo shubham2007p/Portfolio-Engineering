@@ -1800,6 +1800,9 @@ body:has(.blog-topic-item:hover) .bg-grid {
   overflow-x: hidden;
   padding-top: 10rem;
   padding-bottom: 2.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  box-sizing: border-box;
   scrollbar-width: none; 
   -ms-overflow-style: none; 
 }
