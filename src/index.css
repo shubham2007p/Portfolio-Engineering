@@ -77,9 +77,9 @@ body::-webkit-scrollbar {
   background-size: 60px 60px, 80px 80px;
   background-repeat: repeat, repeat;
   background-position: center center;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
-  transform: translate3d(var(--grid-x, 0px), calc(var(--grid-y, 0px) + var(--grid-scroll-y, 0px)), 0);
+  transform: translate3d(var(--grid-x, 0px), var(--grid-y, 0px), 0);
   will-change: transform;
 }
 

@@ -132,12 +132,6 @@ function App() {
       const scrollY = window.scrollY;
       const h = window.innerHeight;
       
-      const grid = bgGridRef.current;
-      if (grid) {
-        const scrollParallaxY = -scrollY * 0.08;
-        grid.style.setProperty('--grid-scroll-y', `${scrollParallaxY}px`);
-      }
-
       // With 7 sections (Homepage, About, Projects, Blog, Services, Build, Connect), Y ranges from 0 to 6.0 * h
       const progress = scrollY / h; 
       setScrollProgress(progress);
