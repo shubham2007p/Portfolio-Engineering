@@ -144,7 +144,7 @@ function BuildSection() {
         }
 
         // 2. Fetch commits directly for the active repo and branch (bypasses email privacy masking)
-        const commitsRes = await fetch(`https://api.github.com/repos/${username}/${activeRepo}/commits?sha=${activeBranch}&per_page=10`);
+        const commitsRes = await fetch(`https://api.github.com/repos/${username}/${activeRepo}/commits?sha=${activeBranch}&per_page=20`);
         let logs = [];
         if (commitsRes.ok) {
           const commits = await commitsRes.json();
@@ -162,7 +162,7 @@ function BuildSection() {
         if (logs.length === 0) {
           logs.push({ time: 'now', msg: 'System online. No recent push commits found.' });
         } else {
-          logs = logs.slice(-10);
+          logs = logs.slice(-20);
         }
 
         // Calculate YTD commits count (approximated from pushes)

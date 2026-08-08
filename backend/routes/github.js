@@ -42,7 +42,7 @@ router.get('/activity', async (req, res) => {
     }
 
     // 2. Fetch commits directly for the active repo and branch (bypasses email privacy masking)
-    const commitsRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${activeRepo}/commits?sha=${activeBranch}&per_page=10`, { headers: githubHeaders() });
+    const commitsRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${activeRepo}/commits?sha=${activeBranch}&per_page=20`, { headers: githubHeaders() });
     let logs = [];
     if (commitsRes.ok) {
       const commits = await commitsRes.json();
@@ -60,7 +60,7 @@ router.get('/activity', async (req, res) => {
     if (logs.length === 0) {
       logs.push({ time: 'now', msg: 'System online. No recent push commits found.' });
     } else {
-      logs = logs.slice(-10);
+      logs = logs.slice(-20);
     }
 
     // ── Metrics ──────────────────────────────────────────────────────────
