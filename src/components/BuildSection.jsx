@@ -254,7 +254,7 @@ function BuildSection() {
             {/* Right Column: Shipped Products panel */}
             <div className="build-products-panel">
               <div className="products-panel-header">
-                <span className="products-panel-title">dev@shubh-panwar:~/products</span>
+                <span className="products-panel-title">// SHIPPED_SOFTWARE_SUITE_</span>
                 <span className="products-panel-controls">RELEASED_</span>
               </div>
               <div className="products-list">
