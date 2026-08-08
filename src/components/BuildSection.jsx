@@ -1,19 +1,156 @@
-import React from 'react';
-import { useApi } from '../hooks/useApi';
+import React, { useState, useEffect } from 'react';
 
-// Fallback data shown before API responds or if it fails
+// Helper: Format commit time relative or as clock time
+function formatTime(date) {
+  const now = new Date();
+  const diffMs = now - date;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) {
+    const h = String(date.getHours()).padStart(2, '0');
+    const m = String(date.getMinutes()).padStart(2, '0');
+    const s = String(date.getSeconds()).padStart(2, '0');
+    return `${h}:${m}:${s}`;
+  }
+  if (diffDays === 1) return 'Yesterday';
+  if (diffDays <= 6) return `${diffDays} days ago`;
+  return 'Last week';
+}
+
+// Helper: Count public PushEvent commits this year
+function countYTDCommits(events) {
+  const startOfYear = new Date(new Date().getFullYear(), 0, 1);
+  let count = 0;
+  for (const event of events) {
+    if (event.type === 'PushEvent' && new Date(event.created_at) >= startOfYear) {
+      count += event.payload?.commits?.length || 0;
+    }
+  }
+  return count;
+}
+
+// Fallback data in case both local API and public GitHub API fail (e.g., rate limit)
+function fallbackData() {
+  return {
+    logs: [
+      { time: '17:28:44', msg: 'commit 9495e5: integrated 004/BLOG editorial typography flow' },
+      { time: '17:24:28', msg: 'commit 4ab72e: added scrollytelling cross-fades & translateY offsets' },
+      { time: '17:15:02', msg: 'bugfix: moved body overflow-x hidden to html to fix Safari snapping' },
+      { time: '17:01:32', msg: 'design: updated project cards to 3D dual-layer folder stacks' },
+      { time: 'Yesterday', msg: 'commit 87e143: initialized magnetic snapping nodes at 60fps' },
+      { time: 'Yesterday', msg: 'feat: canvas cursor particle trail loop rendering successfully' },
+      { time: '2 days ago', msg: 'commit 5f6b9c: resolved z-index click blocking on scroll sections' },
+    ],
+    metrics: [
+      { label: 'PUBLIC REPOS', value: '12' },
+      { label: 'COMMITS (YTD)', value: '84' },
+      { label: 'SPRINT FOCUS', value: 'PORTFOLIO' },
+      { label: 'SYS STATUS', value: 'OPERATIONAL' }
+    ]
+  };
+}
+
 const FALLBACK_METRICS = [
   { label: 'PUBLIC REPOS', value: '—' },
   { label: 'COMMITS (YTD)', value: '—' },
   { label: 'SPRINT FOCUS', value: 'PORTFOLIO' },
   { label: 'SYS STATUS', value: 'STABLE' }
 ];
+
 const FALLBACK_LOGS = [
   { time: '—', msg: 'Connecting to GitHub API…' }
 ];
 
 function BuildSection() {
-  const { data, loading } = useApi('/api/github/activity', {}, null);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+
+    async function fetchActivity() {
+      try {
+        // 1. Try local dev proxy endpoint first
+        const localRes = await fetch('/api/github/activity').catch(() => null);
+        if (localRes && localRes.ok) {
+          const json = await localRes.json();
+          if (active) {
+            setData(json);
+            setLoading(false);
+            return;
+          }
+        }
+
+        // 2. Direct client-side fetch from GitHub for static page deployment (e.g. GitHub Pages)
+        const username = 'shubh-panwar';
+        const [eventsRes, profileRes, reposRes] = await Promise.all([
+          fetch(`https://api.github.com/users/${username}/events/public?per_page=50`),
+          fetch(`https://api.github.com/users/${username}`),
+          fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=pushed`)
+        ]);
+
+        if (!eventsRes.ok || !profileRes.ok) {
+          throw new Error(`GitHub API returned status: ${eventsRes.status}`);
+        }
+
+        const events = await eventsRes.json();
+        const profile = await profileRes.json();
+        const repos = await reposRes.json();
+
+        // Process PushEvent commits
+        const logs = [];
+        for (const event of events) {
+          if (event.type === 'PushEvent' && event.payload?.commits) {
+            for (const commit of event.payload.commits) {
+              const shortHash = commit.sha?.slice(0, 7) || '??????';
+              const repoName = event.repo?.name?.split('/')[1] || 'unknown';
+              const pushedAt = new Date(event.created_at);
+              const timeLabel = formatTime(pushedAt);
+
+              logs.push({
+                time: timeLabel,
+                msg: `commit ${shortHash}: [${repoName}] ${commit.message?.split('\n')[0] || 'update'}`
+              });
+              if (logs.length >= 10) break;
+            }
+          }
+          if (logs.length >= 10) break;
+        }
+
+        if (logs.length === 0) {
+          logs.push({ time: 'now', msg: 'System online. No recent push commits found.' });
+        }
+
+        const totalCommitsYTD = countYTDCommits(events);
+        const sprintFocus = repos[0]?.name?.toUpperCase() || 'PORTFOLIO';
+
+        const metrics = [
+          { label: 'PUBLIC REPOS', value: String(profile.public_repos || 0) },
+          { label: 'COMMITS (YTD)', value: String(totalCommitsYTD) },
+          { label: 'SPRINT FOCUS', value: sprintFocus },
+          { label: 'SYS STATUS', value: 'OPERATIONAL' }
+        ];
+
+        if (active) {
+          setData({ logs, metrics });
+        }
+      } catch (err) {
+        console.warn('GitHub client-side fetch failed, using fallback data:', err.message);
+        if (active) {
+          setData(fallbackData());
+        }
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+
+    fetchActivity();
+    return () => { active = false; };
+  }, []);
 
   const metrics = data?.metrics ?? FALLBACK_METRICS;
   const logs    = data?.logs    ?? FALLBACK_LOGS;
