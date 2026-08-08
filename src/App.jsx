@@ -19,6 +19,7 @@ function App() {
   const [profileHovered, setProfileHovered] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [navHidden, setNavHidden] = useState(false);
+  const lastScrollYRef = useRef(window.scrollY);
   
   // Footer Idea Form States
   const [footerEmail, setFooterEmail] = useState('');
@@ -141,14 +142,14 @@ function App() {
       const progress = scrollY / h; 
       setScrollProgress(progress);
 
-      // Hide navbar and social panel when scrolling past Section 1 (progress >= 0.5)
-      // Note: On Section 3 to 7, we keep it hidden to maintain clean layout focus,
-      // showing only the profile button in the top right.
-      if (progress >= 0.5) {
-        setNavHidden(true);
-      } else {
+      // Show header on scroll up, hide on scroll down
+      const currentScrollY = window.scrollY;
+      if (currentScrollY <= 50 || currentScrollY < lastScrollYRef.current) {
         setNavHidden(false);
+      } else if (currentScrollY > lastScrollYRef.current && currentScrollY > 100) {
+        setNavHidden(true);
       }
+      lastScrollYRef.current = currentScrollY;
 
       // Highlight active tab based on scroll progress boundaries
       if (progress < 0.5) {

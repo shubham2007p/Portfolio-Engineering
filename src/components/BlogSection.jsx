@@ -71,41 +71,6 @@ function BlogSection() {
           </div>
         </div>
 
-        {/* Bottom Metadata Columns */}
-        <div className="blog-footer-columns">
-          
-          {/* Left Column */}
-          <div className="blog-col">
-            <div className="blog-col-icon">
-              {/* Tech Emblem SVG */}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <h4 className="blog-col-title">[SELECTED WRITINGS]</h4>
-            <p className="blog-col-desc">
-              An ongoing documentation of research papers, system notes, and theoretical models. 
-              Exploring the convergence of high-performance logic with neural cognition.
-            </p>
-          </div>
-
-          {/* Right Column */}
-          <div className="blog-col">
-            <div className="blog-col-icon">
-              {/* Crown/Emblem Node SVG */}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <h4 className="blog-col-title">[RESEARCH DOMAINS]</h4>
-            <p className="blog-col-desc">
-              Focusing on self-attention scaling parameters, sparse activation patterns, 
-              and the underlying mathematical beauty of distributed model systems.
-            </p>
-          </div>
-
-        </div>
-
       </div>
     </section>
   );
