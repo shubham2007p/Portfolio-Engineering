@@ -1,0 +1,20 @@
+[
+  {
+    "id": "prod-cuda",
+    "name": "Attention-Kernels",
+    "version": "v1.2.0",
+    "description": "High-performance custom Triton and CUDA attention kernels optimized for consumer GPUs.",
+    "url": "https://github.com/shubham2007p/Portfolio-Engineering",
+    "ctaText": "INSTALL_MODULE",
+    "status": "SHIPPED"
+  },
+  {
+    "id": "prod-cli",
+    "name": "Git-Flow-CLI",
+    "version": "v0.9.4",
+    "description": "A terminal-native command line tool for automating structured Git commit messages.",
+    "url": "https://github.com/shubham2007p/Portfolio-Engineering",
+    "ctaText": "RUN_INSTALLER",
+    "status": "BETA"
+  }
+]

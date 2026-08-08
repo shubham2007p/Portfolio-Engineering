@@ -65,9 +65,31 @@ const FALLBACK_LOGS = [
   { time: '—', msg: 'Connecting to GitHub API…' }
 ];
 
+const STATIC_PRODUCTS = [
+  {
+    id: "prod-cuda",
+    name: "Attention-Kernels",
+    version: "v1.2.0",
+    description: "High-performance custom Triton and CUDA attention kernels optimized for consumer GPUs.",
+    url: "https://github.com/shubham2007p/Portfolio-Engineering",
+    ctaText: "INSTALL_MODULE",
+    status: "SHIPPED"
+  },
+  {
+    id: "prod-cli",
+    name: "Git-Flow-CLI",
+    version: "v0.9.4",
+    description: "A terminal-native command line tool for automating structured Git commit messages.",
+    url: "https://github.com/shubham2007p/Portfolio-Engineering",
+    ctaText: "RUN_INSTALLER",
+    status: "BETA"
+  }
+];
+
 function BuildSection() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState(STATIC_PRODUCTS);
 
   useEffect(() => {
     let active = true;
@@ -75,6 +97,14 @@ function BuildSection() {
 
     async function fetchActivity() {
       try {
+        // Fetch products list from local backend if available
+        fetch('/api/products')
+          .then(res => res.ok ? res.json() : null)
+          .then(json => {
+            if (json && active) setProducts(json);
+          })
+          .catch(() => null);
+
         // 1. Try local dev proxy endpoint first
         const localRes = await fetch('/api/github/activity').catch(() => null);
         if (localRes && localRes.ok) {
@@ -196,25 +226,51 @@ function BuildSection() {
             ))}
           </div>
 
-          {/* Scrolling Terminal Dev Log Console */}
-          <div className="build-console">
-            <div className="console-titlebar">
-              <span className="console-title">dev@shubh-panwar:~/builds</span>
-              <span className="console-controls">LOGS_</span>
-            </div>
-            <div className="console-log-list">
-              {logs.map((log, idx) => (
-                <div key={idx} className="console-log-row">
-                  <span className="console-log-time">[{log.time}]</span>
+          {/* Bottom Split Layout: Console on Left, Products on Right */}
+          <div className="build-main-split">
+            {/* Left Column: Console */}
+            <div className="build-console">
+              <div className="console-titlebar">
+                <span className="console-title">dev@shubh-panwar:~/builds</span>
+                <span className="console-controls">LOGS_</span>
+              </div>
+              <div className="console-log-list">
+                {logs.map((log, idx) => (
+                  <div key={idx} className="console-log-row">
+                    <span className="console-log-time">[{log.time}]</span>
+                    <span className="console-log-arrow">&gt;&gt;</span>
+                    <span className="console-log-msg">{log.msg}</span>
+                  </div>
+                ))}
+                {/* Live blinking cursor at end */}
+                <div className="console-log-row">
+                  <span className="console-log-time">[now]</span>
                   <span className="console-log-arrow">&gt;&gt;</span>
-                  <span className="console-log-msg">{log.msg}</span>
+                  <span className="console-log-msg console-cursor">█</span>
                 </div>
-              ))}
-              {/* Live blinking cursor at end */}
-              <div className="console-log-row">
-                <span className="console-log-time">[now]</span>
-                <span className="console-log-arrow">&gt;&gt;</span>
-                <span className="console-log-msg console-cursor">█</span>
+              </div>
+            </div>
+
+            {/* Right Column: Shipped Products panel */}
+            <div className="build-products-panel">
+              <div className="products-panel-header">
+                <span className="products-panel-title">dev@shubh-panwar:~/products</span>
+                <span className="products-panel-controls">RELEASED_</span>
+              </div>
+              <div className="products-list">
+                {products.map((prod) => (
+                  <div key={prod.id} className="product-card">
+                    <div className="product-card-header">
+                      <h3 className="product-card-name">{prod.name}</h3>
+                      <span className="product-card-ver">{prod.version}</span>
+                      <span className={`product-status-badge ${prod.status.toLowerCase()}`}>{prod.status}</span>
+                    </div>
+                    <p className="product-card-desc">{prod.description}</p>
+                    <a href={prod.url} target="_blank" rel="noopener noreferrer" className="product-card-cta">
+                      &gt; {prod.ctaText}_
+                    </a>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
