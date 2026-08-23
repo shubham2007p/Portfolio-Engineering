@@ -1,0 +1,28 @@
+{
+  "name": "shubham-panwar-portfolio-mcp",
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) server for Shubham Panwar's Engineering Portfolio",
+  "transport": "streamable-http",
+  "endpoint": "https://shubham2007p.github.io/Portfolio-Engineering/api/mcp",
+  "capabilities": {
+    "tools": true
+  },
+  "tools": [
+    {
+      "name": "get_portfolio_summary",
+      "description": "Returns executive summary, bio, skills, and contact channels for Shubham Panwar."
+    },
+    {
+      "name": "query_chatbot",
+      "description": "Query the portfolio AI assistant for specific answers regarding projects, CUDA development, or technical background."
+    },
+    {
+      "name": "get_projects",
+      "description": "List open-source projects, attention kernel repos, and technical stack details."
+    },
+    {
+      "name": "get_github_activity",
+      "description": "Fetch real-time GitHub commit history and active build status."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: DeepSeekBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: ora-agent
+Allow: /
+
+Sitemap: https://shubham2007p.github.io/Portfolio-Engineering/sitemap.xml
