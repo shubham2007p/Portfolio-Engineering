@@ -1,0 +1,116 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Shubham Panwar Portfolio API",
+    "description": "Public API endpoints for Shubham Panwar's engineering portfolio, chatbot system, and live GitHub activity.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Shubham Panwar",
+      "email": "shubhamworking1004@gmail.com",
+      "url": "https://shubham2007p.github.io/Portfolio-Engineering"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://shubham2007p.github.io/Portfolio-Engineering",
+      "description": "Production Server"
+    },
+    {
+      "url": "http://localhost:4000",
+      "description": "Local Development Backend"
+    }
+  ],
+  "paths": {
+    "/api/chat": {
+      "post": {
+        "summary": "Query AI Assistant",
+        "description": "Sends a prompt to the portfolio's knowledge assistant and receives a structured response.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": { "type": "string", "example": "What projects has Shubham built?" }
+                },
+                "required": ["message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reply": { "type": "string" },
+                    "suggestions": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/github/activity": {
+      "get": {
+        "summary": "Get GitHub Activity Metrics",
+        "description": "Retrieves public commit logs, active builds, and repository counters.",
+        "responses": {
+          "200": {
+            "description": "Activity metrics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "metrics": { "type": "object" },
+                    "recentCommits": { "type": "array" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact": {
+      "post": {
+        "summary": "Send Contact Message",
+        "description": "Submits a contact inquiry or collaboration message.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "message": { "type": "string" }
+                },
+                "required": ["name", "email", "message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Message sent successfully" }
+        }
+      }
+    },
+    "/api/ping": {
+      "get": {
+        "summary": "API Health Check",
+        "responses": {
+          "200": { "description": "Service is healthy" }
+        }
+      }
+    }
+  }
+}

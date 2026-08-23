@@ -1,0 +1,36 @@
+# Shubham Panwar — Full Technical Context & Engineering Documentation
+
+## 1. Executive Summary & Bio
+- **Name**: Shubham Panwar
+- **Role**: AI & Systems Engineer | Computer Science Scholar
+- **Location**: Delhi, India
+- **Email**: shubhamworking1004@gmail.com
+- **GitHub**: https://github.com/shubh-panwar
+- **LinkedIn**: https://www.linkedin.com/in/shubham-panwar-9324b02a8/
+- **Focus**: High-performance GPU kernels (CUDA, Triton), transformer attention optimization, scalable full-stack web applications, and interactive physics-driven web visualizers.
+
+## 2. Technical Capabilities & Stack
+- **AI & Systems**: CUDA C/C++, Triton, PyTorch, C++20, GPU Memory Bandwidth Optimization, Transformer Architecture Kernels, FlashAttention-style optimizations.
+- **Fullstack Engineering**: React 19, Vite, Express.js, Node.js, WebSockets, REST API Gateway Design, Modular CSS.
+- **Tools & DevOps**: Git, Linux, Docker, Vite, Nodemon, GitHub Pages, ESLint.
+
+## 3. Key Featured Projects
+
+### Attention-Kernels (CUDA / Triton / PyTorch)
+High-performance custom attention kernels optimized for consumer GPUs, pushing memory bandwidth boundaries and reducing transformer memory footprint during LLM inference and training.
+- **URL**: https://github.com/shubham2007p/Portfolio-Engineering
+- **Stack**: CUDA, Triton, Python
+
+### Poly-Engine & Agentic Portfolio Platform
+Interactive physics-driven spatial web graph coupled with an embedded Gemini-powered AI chatbot terminal for natural language portfolio exploration.
+- **Stack**: React 19, Express.js, Google Gemini API, Modular CSS
+
+## 4. Services Offered
+1. **Fullstack Architecture**: Designing high-throughput, responsive web applications and API microservices.
+2. **Machine Learning Systems**: Optimizing model inference, custom CUDA/Triton kernels, and engineering AI data pipelines.
+3. **Creative Code & Visualizations**: Canvas math, interactive canvas physics, and dynamic web interfaces.
+
+## 5. Contact & Booking
+- Primary Email: shubhamworking1004@gmail.com
+- GitHub Profile: https://github.com/shubh-panwar
+- LinkedIn: https://www.linkedin.com/in/shubham-panwar-9324b02a8/
